@@ -36,6 +36,7 @@ curl --location 'localhost:8080/api/v1/rooms?fromTime=10%3A00&toTime=10%3A15' \
 --header 'Content-Type: application/json'
 
 Api to create a new meeting : 
+
 curl --location 'localhost:8080/api/v1/meetings' \
 --header 'Content-Type: application/json' \
 --data '{
