@@ -1,0 +1,89 @@
+server:
+  port: 8066
+logging:
+  level:
+    root: info
+    org.zalando.logbook: TRACE
+    org.springframework: INFO
+spring:
+  application:
+    name: wealth-mutual-funds-service
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=wealth-mutual-funds;
+    username: sa
+    password: Mashreq@1
+  jpa:
+    database: SQL_SERVER
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+      naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: none
+  data:
+    redis:
+      key-prefix: wealth-mutual-funds_
+      database: 0
+      host: localhost
+      port: 6379
+      password:
+      ttl: 600
+      ssl:
+        enabled: false
+      timeout: 3000
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1
+          max-idle: 8
+          min-idle: 0
+  kafka:
+    server-url: localhost:9094
+    ##    For Local Kafka Connection Remove the connecting-string and its traces from code
+    consumer:
+      max-poll-records: 1
+      max-poll-interval-ms: 300000
+      group-id: wealth-mutual-funds-service
+      mob-digital-authorization-topic:
+        connection-string: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://dummy-eventhub-nonprod.servicebus.windows.net/;SharedAccessKeyName=wealth-updating-cpra-ima-dummy;SharedAccessKey=SNxO74BW2s7tXapjyTxAl+13123134234=";
+        name: mob-digital-authoirzation-dev
+    enableMessageListener: true
+
+
+app:
+  services:
+    internal-api-gateway:
+      url: https://internal.apigateway.cibg.mashreqdev.com/mashreqtest/uae/
+    customer-services:
+      url: https://digital-dev.mashreq.com/api/customers-service
+    accounts-services:
+      url: https://digital-dev.mashreq.com/api/accounts-service
+    otp:
+      url: https://digital-dev.mashreq.com/api/ms-security-iam
+    wealth-dashboard-service:
+      url: https://digital-uat.mashreq.com/api/wealth-dashboard-service
+    rm-service:
+      url: https://digital-dev.mashreq.com/api/rm-service
+    wealth-commons-service:
+      url: https://digital-dev.mashreq.com/api/wealth-commons-service
+    notification-service:
+      url: https://digital-dev.mashreq.com/api/notification-service
+    remote-authorization:
+      url: https://digital-uat.mashreq.com/api/mob-remote-authorization-service
+
+authentication-service:
+    INTERNAL:
+      url: https://internal.apigateway.cibg.mashreqdev.com/mashreqtest/uae/oauth-v6/oauth2/token
+      client-id: e5413122ce3856aea4da43729d1e53ed
+      client-secret: 9c64cbfeed42894cf3b27e81781ad3b1
+      grant-type: client_credentials
+      scope: CORE
+
+job:
+  product-list-file-path: ${PRODUCT_LIST_FILE_PATH:C:/wealth-mutual-funds-service/finiq/FundDetails.txt}
+  product-performance-file-path: ${PRODUCT_PERFORMANCE_FILE_PATH:C:/wealth-mutual-funds-service/finiq/FundRatiosandPerformance.txt}
+  product-breakdown-file-path: ${PRODUCT_BREAKDOWN_FILE_PATH:C:/wealth-mutual-funds-service/finiq/FundBreakdowns.txt}
+  product-nav-history-file-path: ${PRODUCT_NAV_HISTORY_FILE_PATH:C:/wealth-mutual-funds-service/finiq/FundNAVHistory.txt}
+  product-dividend-history-file-path: ${PRODUCT_DIVIDEND_HISTORY_FILE_PATH:C:/wealth-mutual-funds-service/finiq/FundsDividend.txt}
+  master-file-path: C:/wealth-mutual-fundspost-service/finiq/
+delay-between-batch-jobs: 20000

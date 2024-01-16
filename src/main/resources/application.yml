@@ -1,0 +1,53 @@
+logging:
+  level:
+    root: INFO
+    org.zalando.logbook: TRACE
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 180000
+        loggerLevel: FULL
+
+server:
+  compression:
+    enabled: true
+  http2:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      base-path: /api/actuator
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      type: b3
+
+spring:
+  application:
+    name: meeting-service
+  profiles:
+    active: DEV
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:meetings;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+    hikari:
+      data-source-properties:
+          characterEncoding: utf-8
+          useUnicode: true
+  jpa:
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+  h2:
+    console: true
+
+meeting-interval: 15
