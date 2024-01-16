@@ -18,8 +18,35 @@ Its a conference room booking system for a bank, it has 4 rooms with different c
 
 # Build and Test
 
+In order to build and run the application, required tools : 
+    Java 17
+    Maven
+    Docker
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+buid by running command : mvn clean install
+it creates a test container and deploys application in it and runs test cases there.
+
+then go in target folder and run : java -jar meeting-service-1.0.0.jar
+
+# API curls 
+
+APi to get All available rooms : 
+
+curl --location 'localhost:8080/api/v1/rooms?fromTime=10%3A00&toTime=10%3A15' \
+--header 'Content-Type: application/json'
+
+Api to create a new meeting : 
+curl --location 'localhost:8080/api/v1/meetings' \
+--header 'Content-Type: application/json' \
+--data '{
+    "title": "Meeting Request 1",
+    "people": 5,
+    "startTime": "10:00",
+    "endTime": "10:15"
+
+}'
+
+Api to get all scheduled meetings :
+
+curl --location 'localhost:8080/api/v1/meetings' \
+--header 'Content-Type: application/json'
